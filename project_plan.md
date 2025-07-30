@@ -1,129 +1,121 @@
-Phase 1: Project Setup & Foundation (Week 1)
-Backend Setup
+# Task Manager App - Development Plan
 
-Initialize Django project with virtual environment
-Configure Django REST Framework for API endpoints
-Set up PostgreSQL database (or SQLite for development)
-Create basic project structure with apps: accounts, boards, tasks
-Configure CORS for React frontend communication
+## Phase 1: Project Setup & Foundation (Week 1)
 
-Frontend Setup
+### Backend Setup
+- Initialize Django project with virtual environment
+- Configure Django REST Framework for API endpoints
+- Set up PostgreSQL database (or SQLite for development)
+- Create basic project structure with apps: accounts, boards, tasks
+- Configure CORS for React frontend communication
 
-Create React app with Create React App or Vite
-Set up routing with React Router
-Install UI library (Material-UI, Tailwind, or Ant Design)
-Configure Axios for API calls
-Set up basic folder structure for components, pages, services
+### Frontend Setup
+- Create React app with Create React App or Vite
+- Set up routing with React Router
+- Install UI library (Material-UI, Tailwind, or Ant Design)
+- Configure Axios for API calls
+- Set up basic folder structure for components, pages, services
 
-Phase 2: User Authentication (Week 2)
-Django Backend
+## Phase 2: User Authentication (Week 2)
 
-Create User model extensions if needed
-Implement JWT authentication with Django REST Framework
-Build registration, login, logout API endpoints
-Add password reset functionality
+### Django Backend
+- Create User model extensions if needed
+- Implement JWT authentication with Django REST Framework
+- Build registration, login, logout API endpoints
+- Add password reset functionality
 
-React Frontend
+### React Frontend
+- Create login/register forms
+- Implement authentication context for state management
+- Add protected routes
+- Build user profile page
+- Handle token storage and refresh
 
-Create login/register forms
-Implement authentication context for state management
-Add protected routes
-Build user profile page
-Handle token storage and refresh
+## Phase 3: Core Data Models (Week 3)
 
-Phase 3: Core Data Models (Week 3)
-Django Models
+### Django Models
+- Board model (workspace/project container)
+- List model (columns like "To Do", "In Progress", "Done")
+- Task model (individual tasks with descriptions, due dates, priorities)
+- Set up model relationships and permissions
 
-Board model (workspace/project container)
-List model (columns like "To Do", "In Progress", "Done")
-Task model (individual tasks with descriptions, due dates, priorities)
-Set up model relationships and permissions
+### API Development
+- Create serializers for all models
+- Build CRUD endpoints for boards, lists, and tasks
+- Add filtering and search capabilities
+- Implement proper permissions (users can only access their boards)
 
-API Development
+## Phase 4: Basic UI Implementation (Week 4)
 
-Create serializers for all models
-Build CRUD endpoints for boards, lists, and tasks
-Add filtering and search capabilities
-Implement proper permissions (users can only access their boards)
+### React Components
+- Dashboard showing user's boards
+- Board view with lists displayed horizontally
+- Task cards within lists
+- Forms for creating/editing boards, lists, and tasks
+- Basic responsive design
 
-Phase 4: Basic UI Implementation (Week 4)
-React Components
+### State Management
+- Set up Context API or Redux for global state
+- Implement optimistic updates for better UX
+- Handle loading states and error messages
 
-Dashboard showing user's boards
-Board view with lists displayed horizontally
-Task cards within lists
-Forms for creating/editing boards, lists, and tasks
-Basic responsive design
+## Phase 5: Drag & Drop Functionality (Week 5)
 
-State Management
+### Frontend Enhancement
+- Integrate React DnD or react-beautiful-dnd
+- Enable dragging tasks between lists
+- Add drag indicators and visual feedback
+- Update backend when tasks are moved
+- Handle drag and drop for reordering within lists
 
-Set up Context API or Redux for global state
-Implement optimistic updates for better UX
-Handle loading states and error messages
+## Phase 6: Advanced Features (Week 6-7)
 
-Phase 5: Drag & Drop Functionality (Week 5)
-Frontend Enhancement
+### Enhanced Task Management
+- Task assignments (if building team features)
+- Due dates with calendar integration
+- Priority levels and color coding
+- Task descriptions with rich text editor
+- File attachments
+- Comments on tasks
 
-Integrate React DnD or react-beautiful-dnd
-Enable dragging tasks between lists
-Add drag indicators and visual feedback
-Update backend when tasks are moved
-Handle drag and drop for reordering within lists
+### Board Collaboration
+- Invite users to boards
+- Different permission levels (viewer, editor, admin)
+- Real-time updates with WebSockets (Django Channels)
 
-Phase 6: Advanced Features (Week 6-7)
-Enhanced Task Management
+## Phase 7: Polish & Deployment (Week 8)
 
-Task assignments (if building team features)
-Due dates with calendar integration
-Priority levels and color coding
-Task descriptions with rich text editor
-File attachments
-Comments on tasks
+### Final Touches
+- Comprehensive error handling
+- Loading skeletons and animations
+- Dark/light theme toggle
+- Mobile responsiveness improvements
+- Performance optimization
 
-Board Collaboration
+### Deployment
+- Deploy Django backend (Heroku, DigitalOcean, or AWS)
+- Deploy React frontend (Netlify, Vercel, or same server)
+- Set up production database
+- Configure environment variables
+- Add monitoring and logging
 
-Invite users to boards
-Different permission levels (viewer, editor, admin optimistic updates for better UX
-Handle loading states and error messages
+## Key Technologies You'll Learn
 
-Invite users to boards
-Different permission levels (viewer, editor, admin)
-Real-time updates with WebSockets (Django Channels)
+### Django Side
+- Django REST Framework
+- JWT authentication
+- Database relationships and migrations
+- API design patterns
+- Django Channels (for real-time features)
 
-Phase 7: Polish & Deployment (Week 8)
-Final Touches
+### React Side
+- React Hooks (useState, useEffect, useContext)
+- React Router for navigation
+- State management patterns
+- HTTP requests with Axios
+- Drag and drop libraries
+- Form handling and validation
 
-Comprehensive error handling
-Loading skeletons and animations
-Dark/light theme toggle
-Mobile responsiveness improvements
-Performance optimization
+## Recommended Learning Approach
 
-Deployment
-
-Deploy Django backend (Heroku, DigitalOcean, or AWS)
-Deploy React frontend (Netlify, Vercel, or same server)
-Set up production database
-Configure environment variables
-Add monitoring and logging
-
-Key Technologies You'll Learn
-Django Side
-
-Django REST Framework
-JWT authentication
-Database relationships and migrations
-API design patterns
-Django Channels (for real-time features)
-
-React Side
-
-React Hooks (useState, useEffect, useContext)
-React Router for navigation
-State management patterns
-HTTP requests with Axios
-Drag and drop libraries
-Form handling and validation
-
-Recommended Learning Approach
 Start with a minimal viable product in phases 1-4, then gradually add complexity. Focus on getting the basic CRUD operations working before adding drag-and-drop and real-time features.
