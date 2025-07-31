@@ -1,0 +1,7 @@
+curl -X POST http://localhost:8000/api/auth/register/ -H "Content-Type: application/json" -d '{"username": "mike", "password": "0102", "email": "mike@example.com"}'
+
+curl -X POST http://localhost:8000/api/auth/token/ -H "Content-Type: application/json" -d '{"username": "mike", "password": "0102"}'
+
+curl -X GET http://localhost:8000/api/auth/profile/ \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ACCESS_TOKEN"
