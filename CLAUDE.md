@@ -27,6 +27,7 @@ This is a task manager application built with Django (backend) and React (fronte
 - **HTTP Client**: Axios for API communication (configured in `services/api.js`)
 - **Routing**: React Router DOM 6.30.1
 - **Styling**: Emotion (CSS-in-JS) with Material-UI
+- **Drag & Drop**: React DND with HTML5 backend for task management
 - **Structure**: Organized with `components/`, `contexts/`, `services/` and `utils/` directories
 - **Authentication**: Context-based state management with automatic token handling
 
@@ -151,13 +152,36 @@ Full Kanban board system implemented:
 - `POST /api/tasks/` - Create tasks within lists
 - `GET/PUT/DELETE /api/tasks/{id}/` - Task detail operations
 
-**Next Phase**: UI Polish & Advanced Features (Week 4-5) - Drag & drop, improved styling, task assignments
+**✅ Phase 4-5 In Progress: Advanced Features & UI Polish**
+
+Drag & drop functionality implemented:
+
+### Drag & Drop System Complete
+- ✅ React DND integration with HTML5 backend
+- ✅ DragDropProvider component wrapping board interface
+- ✅ DraggableTask component with drag functionality and visual feedback
+- ✅ DroppableList component with drop zones and hover effects
+- ✅ Optimistic UI updates during drag operations
+- ✅ Backend API integration for persistent task moves
+- ✅ Visual indicators (hover effects, drop zones, drag states)
+- ✅ Smooth animations and transitions during drag operations
+
+### Enhanced UI Features
+- ✅ Professional Kanban board layout with proper spacing
+- ✅ Visual feedback during drag operations (opacity, rotation, colors)
+- ✅ Drop zone highlighting with dashed borders
+- ✅ Smooth transitions and hover effects
+- ✅ Empty list drop indicators
+- ✅ Task positioning and reordering within lists
+
+**Next Phase**: Additional Polish & Team Features - Task assignments, due dates, board sharing
 
 Based on the project plan (project_plan.md), the implementation follows an 8-week development roadmap focusing on user authentication, core data models, UI implementation, drag-and-drop functionality, and advanced features.
 
 ## Important Notes
 
-- Full Kanban board system now operational with all CRUD operations
+- Full Trello-like Kanban system operational with drag & drop functionality
+- React DND dependencies added: `react-dnd@^16.0.1` and `react-dnd-html5-backend@^16.0.1`
 - Authentication system is fully functional and tested (see `cheatsheet.txt` for curl examples)
 - Enhanced cheatsheet.txt with curl examples for all board/list/task operations
 - Database migrations applied for Board, List, and Task models
