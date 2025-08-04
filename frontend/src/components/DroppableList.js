@@ -6,12 +6,58 @@ const ItemTypes = {
   TASK: 'task',
 };
 
+// Drop zone component for precise task positioning
+const TaskDropZone = ({ listId, index, onMoveTask, isOver }) => {
+  const [{ isOverCurrent }, drop] = useDrop({
+    accept: ItemTypes.TASK,
+    drop: (item) => {
+      if (item.listId !== listId || item.index !== index) {
+        onMoveTask(item, listId, index);
+      }
+    },
+    collect: (monitor) => ({
+      isOverCurrent: monitor.isOver({ shallow: true }),
+    }),
+  });
+
+  return (
+    <div
+      ref={drop}
+      style={{
+        height: isOverCurrent ? '20px' : '4px',
+        backgroundColor: isOverCurrent ? 'rgba(33, 150, 243, 0.2)' : 'transparent',
+        border: isOverCurrent ? '2px dashed #2196f3' : 'none',
+        borderRadius: '4px',
+        transition: 'all 0.2s ease',
+        margin: isOverCurrent ? '2px 0' : '1px 0',
+        position: 'relative'
+      }}
+    >
+      {isOverCurrent && (
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          color: '#2196f3',
+          fontSize: '10px',
+          fontWeight: 'bold',
+          whiteSpace: 'nowrap'
+        }}>
+          Drop here
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 const DroppableList = ({ 
   list, 
   onMoveTask,
   onDeleteTask, 
   onToggleTask,
+  onEditTask,
   showCreateTask,
   setShowCreateTask,
   newTaskData,
@@ -67,16 +113,31 @@ const DroppableList = ({
         marginBottom: '15px',
         minHeight: '100px'
       }}>
+        {/* Drop zone at the beginning */}
+        <TaskDropZone 
+          listId={list.id}
+          index={0}
+          onMoveTask={onMoveTask}
+        />
+        
         {list.tasks.filter(task => task && task.id).map((task, index) => (
-          <DraggableTask
-            key={task.id}
-            task={task}
-            listId={list.id}
-            index={index}
-            onMoveTask={onMoveTask}
-            onDeleteTask={onDeleteTask}
-            onToggleTask={onToggleTask}
-          />
+          <React.Fragment key={task.id}>
+            <DraggableTask
+              task={task}
+              listId={list.id}
+              index={index}
+              onMoveTask={onMoveTask}
+              onDeleteTask={onDeleteTask}
+              onToggleTask={onToggleTask}
+              onEditTask={onEditTask}
+            />
+            {/* Drop zone after each task */}
+            <TaskDropZone 
+              listId={list.id}
+              index={index + 1}
+              onMoveTask={onMoveTask}
+            />
+          </React.Fragment>
         ))}
         
         {/* Drop zone indicator when list is empty */}

@@ -11,7 +11,8 @@ const DraggableTask = ({
   index,
   onMoveTask, 
   onDeleteTask, 
-  onToggleTask 
+  onToggleTask,
+  onEditTask
 }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.TASK,
@@ -60,23 +61,56 @@ const DraggableTask = ({
           margin: 0, 
           fontSize: '14px',
           textDecoration: task.completed ? 'line-through' : 'none',
-          color: task.completed ? '#6c757d' : '#333'
+          color: task.completed ? '#6c757d' : '#333',
+          flex: 1,
+          marginRight: '8px'
         }}>
           {task.title}
         </h4>
-        <button
-          onClick={() => onDeleteTask(task.id, listId)}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            color: '#dc3545',
-            cursor: 'pointer',
-            fontSize: '16px',
-            padding: '0 4px'
-          }}
-        >
-          ×
-        </button>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onEditTask(task);
+            }}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#007bff',
+              cursor: 'pointer',
+              fontSize: '12px',
+              padding: '2px 4px',
+              borderRadius: '3px',
+              transition: 'background-color 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#f8f9fa'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+            title="Edit task"
+          >
+            ✏️
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteTask(task.id, listId);
+            }}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#dc3545',
+              cursor: 'pointer',
+              fontSize: '14px',
+              padding: '2px 4px',
+              borderRadius: '3px',
+              transition: 'background-color 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#f8f9fa'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+            title="Delete task"
+          >
+            ×
+          </button>
+        </div>
       </div>
       {task.description && (
         <p style={{ 
@@ -89,34 +123,19 @@ const DraggableTask = ({
       )}
       <div style={{ 
         display: 'flex', 
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center'
       }}>
-        <label style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          fontSize: '12px',
-          cursor: 'pointer'
+        <span style={{ 
+          fontSize: '10px',
+          padding: '2px 6px',
+          borderRadius: '10px',
+          backgroundColor: task.priority === 'high' ? '#dc3545' : 
+                          task.priority === 'medium' ? '#ffc107' : '#28a745',
+          color: task.priority === 'medium' ? '#000' : 'white'
         }}>
-          <input
-            type="checkbox"
-            checked={task.completed}
-            onChange={() => onToggleTask(task, listId)}
-            style={{ marginRight: '5px' }}
-          />
-          {task.completed ? 'Completed' : 'Mark complete'}
-        </label>
-        {task.priority !== 'medium' && (
-          <span style={{ 
-            fontSize: '10px',
-            padding: '2px 6px',
-            borderRadius: '10px',
-            backgroundColor: task.priority === 'high' ? '#dc3545' : '#28a745',
-            color: 'white'
-          }}>
-            {task.priority}
-          </span>
-        )}
+          {task.priority}
+        </span>
       </div>
     </div>
   );

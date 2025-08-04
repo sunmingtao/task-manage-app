@@ -4,6 +4,7 @@ import { boardAPI, listAPI, taskAPI } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import DragDropProvider from './DragDropProvider';
 import DroppableList from './DroppableList';
+import EditTaskModal from './EditTaskModal';
 
 const BoardDetail = () => {
   const { id } = useParams();
@@ -17,6 +18,8 @@ const BoardDetail = () => {
   const [newListTitle, setNewListTitle] = useState('');
   const [showCreateTask, setShowCreateTask] = useState(null);
   const [newTaskData, setNewTaskData] = useState({ title: '', description: '' });
+  const [editingTask, setEditingTask] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     fetchBoard();
@@ -48,6 +51,10 @@ const BoardDetail = () => {
 
     console.log('Moving task:', { taskId, sourceListId, sourceIndex, targetListId, targetIndex });
 
+    // Calculate the correct target index for within-list moves
+    let adjustedTargetIndex = targetIndex;
+    let finalPosition = targetIndex;
+    
     // Optimistically update the UI
     setBoard(prev => {
       const newLists = [...prev.lists];
@@ -76,8 +83,16 @@ const BoardDetail = () => {
         return prev; // Return unchanged state if no task found
       }
       
+      // Calculate the correct target index for within-list moves
+      if (sourceListId === targetListId && taskIndex < targetIndex) {
+        // When moving within the same list to a later position,
+        // adjust for the fact that we've already removed the item
+        adjustedTargetIndex = targetIndex - 1;
+        finalPosition = adjustedTargetIndex;
+      }
+      
       // Add task to target list at the correct position
-      const safeTargetIndex = Math.max(0, Math.min(targetIndex, targetList.tasks.length));
+      const safeTargetIndex = Math.max(0, Math.min(adjustedTargetIndex, targetList.tasks.length));
       targetList.tasks.splice(safeTargetIndex, 0, movedTask);
       
       return {
@@ -87,16 +102,17 @@ const BoardDetail = () => {
     });
 
     try {
-      // Update task's list in the backend
+      // Update task's list and position in the backend
       await taskAPI.update(draggedItem.task.id, {
         ...draggedItem.task,
-        list: targetListId
+        list: targetListId,
+        position: finalPosition
       });
     } catch (error) {
       setError('Failed to move task');
       console.error('Error moving task:', error);
-      // Optionally revert the UI change here
-      fetchBoard(); // Refresh from server
+      // Revert the UI change by refreshing from server
+      fetchBoard();
     }
   };
 
@@ -202,6 +218,44 @@ const BoardDetail = () => {
     }
   };
 
+  const handleEditTask = (task) => {
+    setEditingTask(task);
+    setShowEditModal(true);
+  };
+
+  const handleSaveTask = async (updatedTask) => {
+    try {
+      const response = await taskAPI.update(updatedTask.id, {
+        title: updatedTask.title,
+        description: updatedTask.description,
+        priority: updatedTask.priority,
+        list: updatedTask.list,
+        completed: updatedTask.completed
+      });
+      
+      setBoard(prev => ({
+        ...prev,
+        lists: prev.lists.map(list => ({
+          ...list,
+          tasks: list.tasks.map(task => 
+            task.id === updatedTask.id ? response.data : task
+          )
+        }))
+      }));
+      
+      setEditingTask(null);
+      setShowEditModal(false);
+    } catch (error) {
+      setError('Failed to update task');
+      console.error('Error updating task:', error);
+    }
+  };
+
+  const handleCloseEditModal = () => {
+    setEditingTask(null);
+    setShowEditModal(false);
+  };
+
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
@@ -296,6 +350,7 @@ const BoardDetail = () => {
                 onMoveTask={handleMoveTask}
                 onDeleteTask={handleDeleteTask}
                 onToggleTask={handleToggleTask}
+                onEditTask={handleEditTask}
                 showCreateTask={showCreateTask}
                 setShowCreateTask={setShowCreateTask}
                 newTaskData={newTaskData}
@@ -384,6 +439,14 @@ const BoardDetail = () => {
           </div>
         </div>
       </div>
+      
+      {/* Edit Task Modal */}
+      <EditTaskModal
+        task={editingTask}
+        isOpen={showEditModal}
+        onClose={handleCloseEditModal}
+        onSave={handleSaveTask}
+      />
     </DragDropProvider>
   );
 };
