@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
+import BoardDetail from './components/BoardDetail';  // Add this import
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -15,7 +16,6 @@ const PublicRoute = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  // Redirect to dashboard if already authenticated
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -29,7 +29,7 @@ const AppContent = () => {
     <Router>
       <div className="App">
         <Routes>
-          {/* Public routes - redirect to dashboard if already logged in */}
+          {/* Public routes */}
           <Route 
             path="/login" 
             element={
@@ -47,7 +47,7 @@ const AppContent = () => {
             } 
           />
 
-          {/* Protected routes - require authentication */}
+          {/* Protected routes */}
           <Route 
             path="/dashboard" 
             element={
@@ -56,11 +56,26 @@ const AppContent = () => {
               </ProtectedRoute>
             } 
           />
+          <Route 
+            path="/boards" 
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+          {/* Add board detail route */}
+          <Route 
+            path="/boards/:id" 
+            element={
+              <ProtectedRoute>
+                <BoardDetail />
+              </ProtectedRoute>
+            } 
+          />
 
-          {/* Default redirect */}
+          {/* Default redirects */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          
-          {/* Catch all - redirect to dashboard */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
@@ -68,7 +83,7 @@ const AppContent = () => {
   );
 };
 
-// Root App component with AuthProvider
+// Root App component
 function App() {
   return (
     <AuthProvider>

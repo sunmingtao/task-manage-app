@@ -66,4 +66,27 @@ export const authAPI = {
   refreshToken: (refresh) => api.post('/auth/token/refresh/', { refresh }),
 };
 
+// Board endpoints
+export const boardAPI = {
+  list: () => api.get('/boards/'),
+  create: (boardData) => api.post('/boards/', boardData),
+  get: (id) => api.get(`/boards/${id}/`),
+  update: (id, boardData) => api.put(`/boards/${id}/`, boardData),
+  delete: (id) => api.delete(`/boards/${id}/`),
+};
+
+// List endpoints
+export const listAPI = {
+  create: (listData) => api.post('/lists/', listData),
+  update: (id, listData) => api.put(`/lists/${id}/`, listData),
+  delete: (id) => api.delete(`/lists/${id}/`),
+};
+
+// Task endpoints
+export const taskAPI = {
+  create: (taskData) => api.post('/tasks/', taskData),
+  update: (id, taskData) => api.put(`/tasks/${id}/`, taskData),
+  delete: (id) => api.delete(`/tasks/${id}/`),
+};
+
 export default api;

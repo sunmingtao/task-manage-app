@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import BoardList from './BoardList';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -9,45 +10,37 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
+      {/* Header */}
       <div style={{ 
+        background: '#343a40',
+        color: 'white',
+        padding: '10px 20px',
         display: 'flex', 
         justifyContent: 'space-between', 
-        alignItems: 'center',
-        marginBottom: '20px'
+        alignItems: 'center'
       }}>
-        <h1>Task Manager Dashboard</h1>
-        <button
-          onClick={handleLogout}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: '#dc3545',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Logout
-        </button>
+        <h2 style={{ margin: 0 }}>Task Manager</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <span>Welcome, {user?.first_name || user?.username}!</span>
+          <button
+            onClick={handleLogout}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
-
-      <div style={{ 
-        background: '#f8f9fa', 
-        padding: '20px', 
-        borderRadius: '4px',
-        marginBottom: '20px'
-      }}>
-        <h3>Welcome, {user?.first_name || user?.username}!</h3>
-        <p><strong>Username:</strong> {user?.username}</p>
-        <p><strong>Email:</strong> {user?.email}</p>
-        <p><strong>User ID:</strong> {user?.id}</p>
-      </div>
-
-      <div>
-        <h3>Your Tasks</h3>
-        <p>Task management features coming soon...</p>
-      </div>
+      
+      {/* Main Content */}
+      <BoardList />
     </div>
   );
 };

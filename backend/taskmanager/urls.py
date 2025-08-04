@@ -14,13 +14,17 @@ def api_root(request):
             'admin': '/admin/',
             'api': '/api/',
             'auth': '/api/auth/',
+            'boards': '/api/boards/',
+            'lists': '/api/lists/',
+            'tasks': '/api/tasks/',
         }
     })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', api_root),
-    path('api/auth/', include('accounts.urls')),  
+    path('api/auth/', include('accounts.urls')),
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/', include('boards.urls')),  # Add this line
 ]
