@@ -5,6 +5,7 @@ urlpatterns = [
     # Board endpoints
     path('boards/', views.BoardListCreateView.as_view(), name='board-list-create'),
     path('boards/<int:pk>/', views.BoardDetailView.as_view(), name='board-detail'),
+    path('boards/<int:board_id>/users/', views.BoardUsersView.as_view(), name='board-users'),
     
     # List endpoints
     path('lists/', views.ListCreateView.as_view(), name='list-create'),

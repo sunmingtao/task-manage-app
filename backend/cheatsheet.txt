@@ -20,8 +20,20 @@ curl -X POST http://localhost:8000/api/lists/   -H "Authorization: Bearer $ACCES
 # Create a task
 curl -X POST http://localhost:8000/api/tasks/   -H "Authorization: Bearer $ACCESS_TOKEN"   -H "Content-Type: application/json"   -d '{"title": "Learn Django Models", "description": "Understand how Django ORM works", "list": 1, "priority": "high"}'
 
+# Create a task with assignee
+curl -X POST http://localhost:8000/api/tasks/   -H "Authorization: Bearer $ACCESS_TOKEN"   -H "Content-Type: application/json"   -d '{"title": "Review Code", "description": "Code review task", "list": 1, "priority": "medium", "assignee_id": 2}'
+
+# Update task assignment
+curl -X PUT http://localhost:8000/api/tasks/1/   -H "Authorization: Bearer $ACCESS_TOKEN"   -H "Content-Type: application/json"   -d '{"title": "Learn Django Models", "description": "Understand how Django ORM works", "list": 1, "priority": "high", "assignee_id": 2}'
+
 # View a board
 curl -X GET http://localhost:8000/api/boards/1/   -H "Authorization: Bearer $ACCESS_TOKEN"
+
+# Get all users for assignment dropdown (any board ID works)
+curl -X GET http://localhost:8000/api/boards/1/users/   -H "Authorization: Bearer $ACCESS_TOKEN"
+
+# Note: All boards are now visible to all authenticated users
+# Tasks can be assigned to any user in the system
 
 # Show migrations
 python manage.py showmigrations
