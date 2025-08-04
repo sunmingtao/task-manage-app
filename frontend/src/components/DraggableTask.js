@@ -123,9 +123,29 @@ const DraggableTask = ({
       )}
       <div style={{ 
         display: 'flex', 
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
         alignItems: 'center'
       }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {task.assignee && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '10px',
+              color: '#6c757d',
+              backgroundColor: '#f8f9fa',
+              padding: '2px 6px',
+              borderRadius: '10px',
+              border: '1px solid #e9ecef'
+            }}>
+              <span style={{ marginRight: '3px' }}>👤</span>
+              {task.assignee.first_name && task.assignee.last_name 
+                ? `${task.assignee.first_name} ${task.assignee.last_name}`
+                : task.assignee.username
+              }
+            </div>
+          )}
+        </div>
         <span style={{ 
           fontSize: '10px',
           padding: '2px 6px',

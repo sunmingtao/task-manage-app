@@ -1,21 +1,45 @@
 import React, { useState, useEffect } from 'react';
+import { boardAPI } from '../services/api';
 
-const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
+const EditTaskModal = ({ task, isOpen, onClose, onSave, boardId }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    priority: 'medium'
+    priority: 'medium',
+    assignee_id: null
   });
+  const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
 
   useEffect(() => {
     if (task) {
       setFormData({
         title: task.title || '',
         description: task.description || '',
-        priority: task.priority || 'medium'
+        priority: task.priority || 'medium',
+        assignee_id: task.assignee?.id || null
       });
     }
   }, [task]);
+
+  useEffect(() => {
+    if (isOpen && boardId) {
+      fetchBoardUsers();
+    }
+  }, [isOpen, boardId]);
+
+  const fetchBoardUsers = async () => {
+    try {
+      setLoadingUsers(true);
+      const response = await boardAPI.getUsers(boardId);
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching board users:', error);
+      setUsers([]);
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -148,7 +172,7 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
             />
           </div>
 
-          <div style={{ marginBottom: '30px' }}>
+          <div style={{ marginBottom: '20px' }}>
             <label style={{
               display: 'block',
               marginBottom: '8px',
@@ -176,6 +200,52 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
               <option value="medium">Medium Priority</option>
               <option value="high">High Priority</option>
             </select>
+          </div>
+
+          <div style={{ marginBottom: '30px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '8px',
+              fontWeight: '500',
+              color: '#333'
+            }}>
+              Assign to
+            </label>
+            <select
+              name="assignee_id"
+              value={formData.assignee_id || ''}
+              onChange={handleInputChange}
+              disabled={loadingUsers}
+              style={{
+                width: '100%',
+                padding: '12px',
+                border: '2px solid #e1e5e9',
+                borderRadius: '6px',
+                fontSize: '16px',
+                outline: 'none',
+                backgroundColor: loadingUsers ? '#f8f9fa' : 'white',
+                cursor: loadingUsers ? 'not-allowed' : 'pointer'
+              }}
+            >
+              <option value="">Unassigned</option>
+              {users.map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.first_name && user.last_name 
+                    ? `${user.first_name} ${user.last_name} (${user.username})`
+                    : user.username
+                  }
+                </option>
+              ))}
+            </select>
+            {loadingUsers && (
+              <div style={{
+                fontSize: '12px',
+                color: '#6c757d',
+                marginTop: '4px'
+              }}>
+                Loading users...
+              </div>
+            )}
           </div>
 
           <div style={{

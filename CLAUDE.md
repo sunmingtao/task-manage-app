@@ -176,6 +176,10 @@ Full drag & drop and task management system implemented:
 - ✅ Priority color coding (High: Red, Medium: Yellow, Low: Green)
 - ✅ Edit and delete buttons with hover effects
 - ✅ Real-time task updates with backend persistence
+- ✅ **Task assignment functionality with user selection**
+- ✅ **Assignee display on task cards with user avatars**
+- ✅ **Open collaboration: all users can assign tasks to anyone**
+- ✅ **All boards visible to all authenticated users**
 
 ### Enhanced UI Features
 - ✅ Professional Kanban board layout with proper spacing
@@ -184,10 +188,11 @@ Full drag & drop and task management system implemented:
 - ✅ Smooth transitions and hover effects throughout
 - ✅ Empty list drop indicators
 - ✅ Task positioning and reordering within lists
-- ✅ Clean task card design with priority badges
+- ✅ Clean task card design with priority badges and assignee indicators
 - ✅ Responsive modal dialogs with form validation
+- ✅ **User-friendly assignee selection with name/username display**
 
-**Next Phase**: Team Features & Polish - Task assignments, due dates, board sharing, notifications
+**Next Phase**: Team Features & Polish - Due dates, board sharing, notifications, activity tracking
 
 Based on the project plan (project_plan.md), the implementation follows an 8-week development roadmap focusing on user authentication, core data models, UI implementation, drag-and-drop functionality, and advanced features.
 
@@ -196,9 +201,11 @@ Based on the project plan (project_plan.md), the implementation follows an 8-wee
 - **Complete Trello-like Kanban system** with full drag & drop and task management
 - **Professional task editing** with modal interface and priority management
 - **Precise task reordering** within lists and between lists with visual feedback
+- **Task assignment system** with user selection and assignee display on cards
+- **Open collaboration system** - all boards visible to all users, tasks assignable to anyone
 - React DND dependencies added: `react-dnd@^16.0.1` and `react-dnd-html5-backend@^16.0.1`
 - Authentication system is fully functional and tested (see `cheatsheet.txt` for curl examples)  
 - Enhanced cheatsheet.txt with curl examples for all board/list/task operations
-- Database migrations applied for Board, List, and Task models
+- Database migrations applied for Board, List, and Task models with assignee field
 - Development environment fully operational with both servers
 - SQLite is used for development; production should use PostgreSQL (psycopg2-binary already in requirements)

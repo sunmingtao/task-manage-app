@@ -73,6 +73,7 @@ export const boardAPI = {
   get: (id) => api.get(`/boards/${id}/`),
   update: (id, boardData) => api.put(`/boards/${id}/`, boardData),
   delete: (id) => api.delete(`/boards/${id}/`),
+  getUsers: (boardId) => api.get(`/boards/${boardId}/users/`),
 };
 
 // List endpoints

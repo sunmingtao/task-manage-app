@@ -230,7 +230,8 @@ const BoardDetail = () => {
         description: updatedTask.description,
         priority: updatedTask.priority,
         list: updatedTask.list,
-        completed: updatedTask.completed
+        completed: updatedTask.completed,
+        assignee_id: updatedTask.assignee_id
       });
       
       setBoard(prev => ({
@@ -446,6 +447,7 @@ const BoardDetail = () => {
         isOpen={showEditModal}
         onClose={handleCloseEditModal}
         onSave={handleSaveTask}
+        boardId={board?.id}
       />
     </DragDropProvider>
   );
